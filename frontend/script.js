@@ -44,6 +44,7 @@ async function login() {
   token = data.token;
   document.getElementById("authMsg").innerText = "Login successful";
   updateUI();
+  loadBooks();
 } else {
     document.getElementById("authMsg").innerText = data.message;
   }
@@ -70,9 +71,9 @@ async function register() {
 function logout() {
   localStorage.removeItem("token");
   token = null;
-  updateUI();  
-  alert("Logged out");
+  updateUI();
 }
+
 
 
 const bookForm = document.getElementById("bookForm");
@@ -163,7 +164,5 @@ async function deleteBook(id) {
 }
 
 // Initial load
-loadBooks();
-
 updateUI();
-
+loadBooks();
