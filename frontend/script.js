@@ -1,5 +1,6 @@
-const API_URL = "http://localhost:5000/api/books";
-const AUTH_API = "http://localhost:5000/api/auth";
+const API_URL = "https://shelftrack-hzj6.onrender.com/api/books";
+const AUTH_API = "https://shelftrack-hzj6.onrender.com/api/auth";
+
 let token = localStorage.getItem("token");
 
 
