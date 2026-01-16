@@ -45,5 +45,57 @@ ShelfTrack is a full-stack Book Management System built using **Node.js, Express
 
 ---
 
-## 📂 Project Structure
+## ▶️ How to Run Locally
+
+### Prerequisites
+Make sure you have the following installed:
+- Node.js
+- MongoDB (local) **or** MongoDB Atlas account
+
+---
+
+### Backend Setup
+
+1. Navigate to the backend folder:
+```bash
+cd backend
+```
+
+
+### 📁 Project Structure
+
+```ShelfTrack/
+├── backend/
+│   ├── config/
+│   │   └── db.js               # MongoDB connection setup
+│   ├── controllers/
+│   │   ├── authController.js   # User login & registration logic
+│   │   └── bookController.js   # CRUD operations for books
+│   ├── middleware/
+│   │   └── authMiddleware.js   # JWT authentication middleware
+│   ├── models/
+│   │   ├── User.js             # User schema
+│   │   └── Book.js             # Book schema
+│   ├── routes/
+│   │   ├── authRoutes.js       # Authentication routes
+│   │   └── bookRoutes.js       # Book management routes
+│   ├── .env                    # Environment variables (ignored in Git)
+│   ├── app.js                  # Express app entry point
+│   ├── package.json            # Backend dependencies
+│   └── package-lock.json
+│
+├── frontend/
+│   ├── index.html              # UI layout (Bootstrap)
+│   └── script.js               # Frontend logic & API calls
+│
+├── .gitignore                  # Ignored files (node_modules, .env)
+└── README.md                   # Project documentation
+```
+
+
+
+
+<p align="center">
+  Made with ❤️ by <b>Sneha Goswami</b>
+</p>
 
