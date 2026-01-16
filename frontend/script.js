@@ -11,17 +11,18 @@ const logoutBtn = document.getElementById("logoutBtn");
 
 function updateUI() {
   if (token) {
-    authSection.classList.add("d-none");
-    bookFormSection.classList.remove("d-none");
-    booksTableSection.classList.remove("d-none");
-    logoutBtn.classList.remove("d-none");
+    authSection.style.display = "none";
+    bookFormSection.style.display = "block";
+    booksTableSection.style.display = "block";
+    logoutBtn.style.display = "inline-block";
   } else {
-    authSection.classList.remove("d-none");
-    bookFormSection.classList.add("d-none");
-    booksTableSection.classList.remove("d-none"); // 👈 THIS LINE
-    logoutBtn.classList.add("d-none");
+    authSection.style.display = "block";
+    bookFormSection.style.display = "none";
+    booksTableSection.style.display = "none";
+    logoutBtn.style.display = "none";
   }
 }
+
 
 
 
@@ -39,13 +40,16 @@ async function login() {
 
   const data = await res.json();
 
-  if (data.token) {
+ if (data.token) {
   localStorage.setItem("token", data.token);
   token = data.token;
-  document.getElementById("authMsg").innerText = "Login successful";
+
   updateUI();
   loadBooks();
-} else {
+
+  document.getElementById("authMsg").innerText = "Login successful";
+}
+ else {
     document.getElementById("authMsg").innerText = data.message;
   }
 }
@@ -73,6 +77,7 @@ function logout() {
   token = null;
   updateUI();
 }
+
 
 
 
@@ -106,6 +111,12 @@ async function loadBooks() {
 bookForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  // 🚫 Block if not logged in
+  if (!token) {
+    alert("Please login first");
+    return;
+  }
+
   const book = {
     title: title.value,
     author: author.value,
@@ -113,33 +124,32 @@ bookForm.addEventListener("submit", async (e) => {
   };
 
   if (bookIdInput.value) {
-    // Update
+    // 🔒 UPDATE (JWT required)
     await fetch(`${API_URL}/${bookIdInput.value}`, {
-  method: "PATCH",
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${token}`
-  },
-  body: JSON.stringify(book)
-});
-
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify(book)
+    });
   } else {
-    // Create
-   await fetch(API_URL, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${token}`
-  },
-  body: JSON.stringify(book)
-});
-
+    // 🔒 CREATE (JWT required)
+    await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify(book)
+    });
   }
 
   bookForm.reset();
   bookIdInput.value = "";
   loadBooks();
 });
+
 
 // Edit book
 function editBook(id, titleVal, authorVal, priceVal) {
@@ -151,18 +161,27 @@ function editBook(id, titleVal, authorVal, priceVal) {
 
 // Delete book
 async function deleteBook(id) {
+  if (!token) {
+    alert("Please login first");
+    return;
+  }
+
   if (confirm("Are you sure you want to delete this book?")) {
     await fetch(`${API_URL}/${id}`, {
-  method: "DELETE",
-  headers: {
-    "Authorization": `Bearer ${token}`
-  }
-});
-
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
     loadBooks();
   }
 }
 
+
 // Initial load
 updateUI();
-loadBooks();
+
+if (token) {
+  loadBooks();
+}
+
