@@ -29,8 +29,10 @@ function updateUI() {
 
 // Login
 async function login() {
+  console.log("Login button clicked"); 
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
+  console.log(email, password);
 
   const res = await fetch(`${AUTH_API}/login`, {
     method: "POST",
