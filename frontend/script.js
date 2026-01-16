@@ -40,7 +40,15 @@ async function login() {
     body: JSON.stringify({ email, password })
   });
 
-  const data = await res.json();
+  let data;
+try {
+  data = await res.json();
+} catch (err) {
+  document.getElementById("authMsg").innerText =
+    "Server error. Please try again.";
+  return;
+}
+
 
  if (data.token) {
   localStorage.setItem("token", data.token);
@@ -70,7 +78,15 @@ async function register() {
     })
   });
 
-  const data = await res.json();
+  let data;
+try {
+  data = await res.json();
+} catch (err) {
+  document.getElementById("authMsg").innerText =
+    "Server error. Please try again.";
+  return;
+}
+
 
   if (res.ok) {
     document.getElementById("authMsg").innerText =
