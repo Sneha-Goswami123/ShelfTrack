@@ -71,17 +71,29 @@ async function register() {
   });
 
   const data = await res.json();
-  document.getElementById("authMsg").innerText = data.message;
+
+  if (res.ok) {
+    document.getElementById("authMsg").innerText =
+      "Registration successful. Please login.";
+    document.getElementById("authMsg").className = "text-success";
+  } else {
+    document.getElementById("authMsg").innerText = data.message;
+    document.getElementById("authMsg").className = "text-danger";
+  }
 }
+
 // Logout
 function logout() {
   localStorage.removeItem("token");
   token = null;
   updateUI();
 }
-
-
-
+document.getElementById("email").addEventListener("input", () => {
+  document.getElementById("authMsg").innerText = "";
+});
+document.getElementById("password").addEventListener("input", () => {
+  document.getElementById("authMsg").innerText = "";
+});
 
 const bookForm = document.getElementById("bookForm");
 const bookTable = document.getElementById("bookTable");
