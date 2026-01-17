@@ -141,7 +141,7 @@ async function loadBooks() {
 bookForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  // 🚫 Block if not logged in
+  //  Block if not logged in
   if (!token) {
     alert("Please login first");
     return;
